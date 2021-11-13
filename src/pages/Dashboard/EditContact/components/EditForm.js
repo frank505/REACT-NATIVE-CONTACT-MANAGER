@@ -3,7 +3,7 @@ import { Label,Text,Icon, Item, Input,Button,ActionSheet} from 'native-base'
 import { TouchableNativeFeedback,Image, Alert } from 'react-native'
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { styles } from '../styles'
-import ImagePicker from 'react-native-image-picker';
+import * as ImagePicker from 'react-native-image-picker';
 import { useNavigation,useFocusEffect,useRoute} from '@react-navigation/native';
 import {Formik} from 'formik'
 import { disableSubmitButton } from '../../../../helpers/hooksFormInput';
@@ -39,12 +39,9 @@ export default function EditForm() {
   
    
    const ImageOptions = {
-    title: 'Select Image',
-    customButtons: [{ name: 'user images', title: 'Choose An Image' }],
-    storageOptions: {
-      skipBackup: true,
-      path: 'images',
-    },
+    includeBase64: true,
+    maxWidth:500,
+    maxHeight:500
   };
 
   const [fields, setFields] = useState({
@@ -198,7 +195,8 @@ export default function EditForm() {
   
   return ImagePicker.launchImageLibrary(ImageOptions, (response) =>
    {
-   setProfileImage(base64UriAttach+response.data);
+    response?.assets[0]?.base64 == null ||  response?.assets[0]?.base64== void 0 ? null : 
+    setProfileImage(base64UriAttach+ response?.assets[0]?.base64); 
     });
   }catch(e)
   {
@@ -266,8 +264,11 @@ export default function EditForm() {
  const openCamera = ()=>{
    try{
     const base64UriAttach = "data:image/jpeg;base64,";
-    return ImagePicker.launchCamera(ImageOptions, (response) => {
-     setProfileImage(base64UriAttach+response.data);
+    return ImagePicker.launchCamera(ImageOptions, (response) => 
+    {
+      response?.assets[0]?.base64 == null ||  response?.assets[0]?.base64== void 0 ? null : 
+      setProfileImage(base64UriAttach+ response?.assets[0]?.base64); 
+   
      });
    }catch(e)
    {

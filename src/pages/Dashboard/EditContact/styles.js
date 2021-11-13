@@ -17,7 +17,7 @@ export const styles = StyleSheet.create({
     justifyContent:'center'
   },
    defaultImgStyle:{
-    alignSelf:'center',height: 100, width: 100, flex: 1
+    alignSelf:'center',height: 100, width: 100
    },
    labelStyle:{
     marginTop:10,marginBottom:25,color:'red',marginLeft:'9%'
